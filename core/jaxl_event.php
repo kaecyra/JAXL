@@ -48,66 +48,66 @@
  *
  */
 class JAXLEvent {
-	
-	public $reg = array();
-	
-	public function __construct() {
-		
-	}
-	
-	public function __destruct() {
-		
-	}
-	
-	// add callback on a event
-	// returns a reference to be used while deleting callback
-	// callback'd method must return TRUE to be persistent
-	// if none returned or FALSE, callback will be removed automatically
-	public function add($ev, $cb, $pri) {
-		if(!isset($this->reg[$ev]))
-			$this->reg[$ev] = array();
-		
-		$ref = sizeof($this->reg[$ev]);
-		$this->reg[$ev][] = array($pri, $cb);
-		return $ev."-".$ref;
-	}
-	
-	// emit event to notify registered callbacks
-	// is a pqueue required here for performance enhancement
-	// in case we have too many cbs on a specific event?
-	public function emit($ev, $data=array()) {
-		$cbs = array();
-		
-		if(!isset($this->reg[$ev])) return $data;
-		
-		foreach($this->reg[$ev] as $cb) {
-			if(!isset($cbs[$cb[0]]))
-				$cbs[$cb[0]] = array();
-			$cbs[$cb[0]][] = $cb[1];
-		}
-		
-		foreach($cbs as $pri => $cb) {
-			foreach($cb as $c) {
-				$data = call_user_func_array($c, $data);
-			}
-		}
-		
-		unset($cbs);
-		return $data;
-	}
-	
-	// remove previous registered callback
-	public function del($ref) {
-		$ref = explode("-", $ref);
-		unset($this->reg[$ref[0]][$ref[1]]);
-	}
-	
-	public function exists($ev) {
-		$ret = isset($this->reg[$ev]);
-		_debug("event ".$ev." callback ".($ret ? "exists" : "do not exists"));
-		return $ret;
-	}
-	
+   
+   public $reg = array();
+   
+   public function __construct() {
+      
+   }
+   
+   public function __destruct() {
+      
+   }
+   
+   // add callback on a event
+   // returns a reference to be used while deleting callback
+   // callback'd method must return TRUE to be persistent
+   // if none returned or FALSE, callback will be removed automatically
+   public function add($ev, $cb, $pri) {
+      if(!isset($this->reg[$ev]))
+         $this->reg[$ev] = array();
+      
+      $ref = sizeof($this->reg[$ev]);
+      $this->reg[$ev][] = array($pri, $cb);
+      return $ev."-".$ref;
+   }
+   
+   // emit event to notify registered callbacks
+   // is a pqueue required here for performance enhancement
+   // in case we have too many cbs on a specific event?
+   public function emit($ev, $data=array()) {
+      $cbs = array();
+      
+      if(!isset($this->reg[$ev])) return $data;
+      
+      foreach($this->reg[$ev] as $cb) {
+         if(!isset($cbs[$cb[0]]))
+            $cbs[$cb[0]] = array();
+         $cbs[$cb[0]][] = $cb[1];
+      }
+      
+      foreach($cbs as $pri => $cb) {
+         foreach($cb as $c) {
+            $data = call_user_func_array($c, $data);
+         }
+      }
+      
+      unset($cbs);
+      return $data;
+   }
+   
+   // remove previous registered callback
+   public function del($ref) {
+      $ref = explode("-", $ref);
+      unset($this->reg[$ref[0]][$ref[1]]);
+   }
+   
+   public function exists($ev) {
+      $ret = isset($this->reg[$ev]);
+      _debug("event ".$ev." callback ".($ret ? "exists" : "do not exists"));
+      return $ret;
+   }
+   
 }
 
 ?>

@@ -37,8 +37,8 @@
  */
 
 if($argc != 5) {
-	echo "Usage: $argv[0] jid pass host port\n";
-	exit;
+   echo "Usage: $argv[0] jid pass host port\n";
+   exit;
 }
 
 //
@@ -46,20 +46,20 @@ if($argc != 5) {
 //
 require_once 'jaxl.php';
 $comp = new JAXL(array(
-	// (required) component host and secret
-	'jid' => $argv[1],
-	'pass' => $argv[2],
-	
-	// (required)
-	'host' => @$argv[3],
-	'port' => $argv[4]
+   // (required) component host and secret
+   'jid' => $argv[1],
+   'pass' => $argv[2],
+   
+   // (required)
+   'host' => @$argv[3],
+   'port' => $argv[4]
 ));
 
 //
 // XEP's required (required)
 //
 $comp->require_xep(array(
-	'0114' // jabber component protocol
+   '0114' // jabber component protocol
 ));
 
 //
@@ -67,26 +67,26 @@ $comp->require_xep(array(
 //
 
 $comp->add_cb('on_auth_success', function() {
-	_debug("got on_auth_success cb");
+   _debug("got on_auth_success cb");
 });
 
 $comp->add_cb('on_auth_failure', function($reason) {
-	global $comp;
-	$comp->send_end_stream();
-	_debug("got on_auth_failure cb with reason $reason");
+   global $comp;
+   $comp->send_end_stream();
+   _debug("got on_auth_failure cb with reason $reason");
 });
 
 $comp->add_cb('on_chat_message', function($stanza) {
-	global $comp;
-	
-	// echo back incoming message stanza
-	$stanza->to = $stanza->from;
-	$stanza->from = $comp->jid->to_string();
-	$comp->send($stanza);
+   global $comp;
+   
+   // echo back incoming message stanza
+   $stanza->to = $stanza->from;
+   $stanza->from = $comp->jid->to_string();
+   $comp->send($stanza);
 });
 
 $comp->add_cb('on_disconnect', function() {
-	_debug("got on_disconnect cb");
+   _debug("got on_disconnect cb");
 });
 
 //

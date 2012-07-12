@@ -46,19 +46,19 @@ $xmpp = new JAXL($cfg);
 
 <pre>
 $xmpp->add_cb('on_auth_success', function() {
-	global $xmpp;
-	$xmpp->set_status("available!");  // set your status
-	$xmpp->get_vcard();               // fetch your vcard
-	$xmpp->get_roster();              // fetch your roster list
+   global $xmpp;
+   $xmpp->set_status("available!");  // set your status
+   $xmpp->get_vcard();               // fetch your vcard
+   $xmpp->get_roster();              // fetch your roster list
 });
 
 $xmpp->add_cb('on_chat_message', function($msg) {
-	global $xmpp;
-	
-	// echo back
-	$msg->to = $msg->from;
-	$msg->from = $xmpp->full_jid->to_string();
-	$xmpp->send($msg);
+   global $xmpp;
+   
+   // echo back
+   $msg->to = $msg->from;
+   $msg->from = $xmpp->full_jid->to_string();
+   $xmpp->send($msg);
 });
 </pre>
    

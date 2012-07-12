@@ -47,6 +47,21 @@ class XMPPMsg extends XMPPStanza {
 		if($thread) $this->c('thread')->t($thread)->up();
 		if($subject) $this->c('subject')->t($subject)->up();
 	}
+   
+   public function body($BodyText, $Escape = FALSE, $HTML = 'auto') {
+      $PlainBodyText = $Escape ? htmlspecialchars($BodyText) : $BodyText;
+      $StrippedBody = strip_tags($PlainBodyText);
+      
+      if (!$this->exists('body')) $this->c('body')->top();
+      $this->exists('body')->t($StrippedBody)->top();
+      
+      if (($HTML == 'auto' && $StrippedBody != $BodyText) || $HTML === TRUE) {
+         $this->top()
+            ->c('html', 'http://jabber.org/protocol/xhtml-im')
+            ->c('body', 'http://www.w3.org/1999/xhtml')
+            ->t("<p>{$BodyText}</p>")->top();
+      }
+   }
 	
 }
 

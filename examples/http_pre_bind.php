@@ -42,8 +42,8 @@ $body = new SimpleXMLElement($body);
 $attrs = $body->attributes();
 
 if(!@$attrs['to'] && !@$attrs['rid'] && !@$attrs['wait'] && !@$attrs['hold']) {
-	echo "invalid input";
-	exit;
+   echo "invalid input";
+   exit;
 }
 
 define('JAXL_SRC_DIR', '/Users/abhinavsingh/git/JAXL');
@@ -61,22 +61,22 @@ echo $to." ".$rid." ".$wait." ".$hold; exit;
 list($host, $port) = JAXLUtil::get_dns_srv($to);
 
 $client = new JAXL(array(
-	'domain' => $to,
-	'host' => $host,
-	'port' => $port,
-	'bosh_url' => 'http://localhost:5280/http-bind',
-	'bosh_rid' => $rid,
-	'bosh_wait' => $wait,
-	'bosh_hold' => $hold,
-	'auth_type' => 'ANONYMOUS'
+   'domain' => $to,
+   'host' => $host,
+   'port' => $port,
+   'bosh_url' => 'http://localhost:5280/http-bind',
+   'bosh_rid' => $rid,
+   'bosh_wait' => $wait,
+   'bosh_hold' => $hold,
+   'auth_type' => 'ANONYMOUS'
 ));
 
 $client->add_cb('on_auth_success', function() {
-	global $client;
-	_debug($client->full_jid->to_string());
-	_debug($client->xeps['0206']->sid);
-	_debug($client->xeps['0206']->rid);
-	exit;
+   global $client;
+   _debug($client->full_jid->to_string());
+   _debug($client->xeps['0206']->sid);
+   _debug($client->xeps['0206']->rid);
+   exit;
 });
 
 //

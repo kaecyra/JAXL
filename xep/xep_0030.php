@@ -42,23 +42,23 @@ define('NS_DISCO_INFO', 'http://jabber.org/protocol/disco#info');
 define('NS_DISCO_ITEMS', 'http://jabber.org/protocol/disco#items');
 
 class XEP_0030 extends XMPPXep {
-	
-	//
-	// abstract method
-	//
-	
-	public function init() {
-		return array(
-			
-		);
-	}
-	
-	//
-	// event callbacks
-	//
-	
-	
-	
+   
+   //
+   // abstract method
+   //
+   
+   public function init() {
+      return array(
+         
+      );
+   }
+   
+   //
+   // event callbacks
+   //
+   
+   
+   
 }
 
 ?>

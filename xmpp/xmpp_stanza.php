@@ -51,7 +51,7 @@ require_once JAXL_CWD.'/core/jaxl_xml.php';
  */
 class XMPPStanza {
 	
-	private $xml;
+	public $xml;
 	
 	public function __construct($name, $attrs=array(), $ns=NS_JABBER_CLIENT) {
 		if($name instanceof JAXLXml) $this->xml = $name;

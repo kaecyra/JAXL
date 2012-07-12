@@ -41,51 +41,51 @@ require_once JAXL_CWD.'/xmpp/xmpp_xep.php';
 define('NS_MUC', 'http://jabber.org/protocol/muc');
 
 class XEP_0045 extends XMPPXep {
-	
-	//
-	// abstract method
-	//
-	
-	public function init() {
-		return array();
-	}
-	
-	//
-	// api methods (occupant use case)
-	//
-	
-	// room_full_jid simply means room jid with nick name as resource
-	public function get_join_room_pkt($room_full_jid) {
-		return $this->jaxl->get_pres_pkt(
-			array('from'=>$this->jaxl->full_jid->to_string(), 'to'=>(($room_full_jid instanceof XMPPJid) ? $room_full_jid->to_string() : $room_full_jid))
-		);
-	}
-	
-	public function join_room($room_full_jid) {
-		$pkt = $this->get_join_room_pkt($room_full_jid);
-		$this->jaxl->send($pkt);
-	}
-	
-	public function get_leave_room_pkt($room_full_jid) {
-		return $this->jaxl->get_pres_pkt(
-			array('type'=>'unavailable', 'from'=>$this->jaxl->full_jid->to_string(), 'to'=>(($room_full_jid instanceof XMPPJid) ? $room_full_jid->to_string() : $room_full_jid))
-		);
-	}
-	
-	public function leave_room($room_full_jid) {
-		$pkt = $this->get_leave_room_pkt($room_full_jid);
-		$this->jaxl->send($pkt);
-	}
-	
-	//
-	// api methods (moderator use case)
-	//
-	
-	
-	
-	//
-	// event callbacks
-	//
+   
+   //
+   // abstract method
+   //
+   
+   public function init() {
+      return array();
+   }
+   
+   //
+   // api methods (occupant use case)
+   //
+   
+   // room_full_jid simply means room jid with nick name as resource
+   public function get_join_room_pkt($room_full_jid) {
+      return $this->jaxl->get_pres_pkt(
+         array('from'=>$this->jaxl->full_jid->to_string(), 'to'=>(($room_full_jid instanceof XMPPJid) ? $room_full_jid->to_string() : $room_full_jid))
+      );
+   }
+   
+   public function join_room($room_full_jid) {
+      $pkt = $this->get_join_room_pkt($room_full_jid);
+      $this->jaxl->send($pkt);
+   }
+   
+   public function get_leave_room_pkt($room_full_jid) {
+      return $this->jaxl->get_pres_pkt(
+         array('type'=>'unavailable', 'from'=>$this->jaxl->full_jid->to_string(), 'to'=>(($room_full_jid instanceof XMPPJid) ? $room_full_jid->to_string() : $room_full_jid))
+      );
+   }
+   
+   public function leave_room($room_full_jid) {
+      $pkt = $this->get_leave_room_pkt($room_full_jid);
+      $this->jaxl->send($pkt);
+   }
+   
+   //
+   // api methods (moderator use case)
+   //
+   
+   
+   
+   //
+   // event callbacks
+   //
 
 }
 
