@@ -140,8 +140,6 @@ class JAXL extends XMPPStream {
       
       // handle signals
       if(extension_loaded('pcntl')) {
-         pcntl_signal(SIGHUP, array($this, 'signal_handler'));
-         pcntl_signal(SIGINT, array($this, 'signal_handler'));
          pcntl_signal(SIGTERM, array($this, 'signal_handler'));
       }
       
@@ -219,20 +217,13 @@ class JAXL extends XMPPStream {
    }
    
    public function signal_handler($sig) {
-      $this->end_stream();
       
       switch($sig) {
-         // terminal line hangup
-         case SIGHUP:
-            _debug("got sighup");
-            break;
-            // interrupt program
-         case SIGINT:
-            _debug("got sigint");
-            break;
-            // software termination signal
+         
+         // software termination signal
          case SIGTERM:
             _debug("got sigterm");
+            $this->end_stream();
             break;
       }
    }
@@ -341,17 +332,16 @@ class JAXL extends XMPPStream {
       if($this->connect(@$this->cfg['host'], @$this->cfg['port'])) {
          $this->ev->emit('on_connect');
 
-                        // safely hookable in userland
-                        $this->ev->emit('on_connected');
-                        
-                        $Chirp = time();
+         // safely hookable in userland
+         $this->ev->emit('on_connected');
+
+         $Chirp = time();
          while($this->trans->fd) {
             $this->trans->recv();
-                           if (time() - $Chirp >= 10) {
-                              $Chirp = time();
-                              $this->ev->emit('on_chirp');
-                           }
-
+            if (time() - $Chirp >= 10) {
+               $Chirp = time();
+               $this->ev->emit('on_chirp');
+            }
          }
          
          $this->ev->emit('on_disconnect');
