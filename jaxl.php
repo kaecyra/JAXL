@@ -520,8 +520,8 @@ class JAXL extends XMPPStream {
             $BareJID = $jid->bare;
             $Resource = $jid->resource;
             $RosterUser = &$this->roster[$BareJID];
-            
-            unset($RosterUser->resources[$Resource]);
+            if ($RosterUser)
+               unset($RosterUser->resources[$Resource]);
          }
       }
       
